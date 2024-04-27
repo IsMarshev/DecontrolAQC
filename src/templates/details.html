@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <title>Информация о строке</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='detales.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-        <div class="row-details">
+        <!-- <div class="row-details">
             {% for item in line %}
             <span>{{ item }}</span>
             {% endfor %}
-        </div>
+        </div> -->
         <div class="container">
             <!-- Обычные карточки -->
             <div class="card">
               <div class="card-content">
                 <h3>Заголовок Карточки</h3>
-                <p>Описание карточки.</p>
+                {{ view_message_density | safe }}
               </div>
             </div>
             <!-- ... Другие карточки ... -->
@@ -36,6 +37,9 @@
               </div>
             <!-- ... Вторая карточка со слайдером ... -->
           </div>
+            <h1>Результаты классификации</h1>
+            <!-- Выводим график -->
+            {{ view_predictions | safe }}
         </div>
         <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
         <script>

@@ -4,6 +4,8 @@ import torch
 import pandas as pd
 import os
 from transformers import pipeline, BertForSequenceClassification, AutoTokenizer
+import plotly.graph_objs as go
+import plotly
 import asyncio
 from tqdm import tqdm
 
@@ -71,13 +73,39 @@ def display():
 async def details(id):
     file_path = session.get('csv_data_file_path')
     file_data = pd.read_csv(file_path)
-    text_data = file_data.loc[file_data['ID урока'] == int(id)]['Текст сообщения']
-    text_data.reset_index(inplace=True,drop=True)
-    result = await predict(text_data)
-    print(result)
-    line = text_data.to_list()
+    data = file_data.loc[file_data['ID урока'] == int(id)]
+    data.reset_index(inplace=True,drop=True)
+    result = await predict(data['Текст сообщения'])
+    # print(result['predictions'])
+
+    def view_predictions(classification_result):
+        classification_result = pd.DataFrame(result['predictions'], columns = ['label'])['label'].value_counts().to_dict()  
+        data = [go.Bar(x=list(classification_result.keys()), y=list(classification_result.values()))]
+        layout = go.Layout(title='Результаты классификации', autosize=True)
+        fig = go.Figure(data=data, layout=layout)
+        plot_div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div')
+        return plot_div
+    
+    def view_message_density(data):
+        data['Дата старта урока'] = pd.to_datetime(data['Дата старта урока'])
+        data['Дата сообщения'] = pd.to_datetime(data['Дата сообщения'])
+        start_time = data['Дата старта урока'].min()+ pd.Timedelta(minutes=10)
+        end_time = data['Дата сообщения'].max()+ pd.Timedelta(minutes=10)
+        time_intervals = pd.date_range(start=start_time, end=end_time, freq='5T')
+        message_counts = data.groupby(pd.cut(data['Дата сообщения'], bins=time_intervals)).size()
+        trace = go.Scatter(x=time_intervals, y=message_counts, mode='lines')
+        layout = go.Layout(title='Количество сообщений за каждые 5 минут',
+                        xaxis=dict(title='Время'),
+                        yaxis=dict(title='Количество сообщений'))
+        fig = go.Figure(data=[trace], layout=layout)
+        plot_div = fig.to_html(full_html=False, include_plotlyjs=False)
+        return plot_div
+
+
+
+    line = data['Текст сообщения'].to_list()
     if line:
-        return render_template('details.html', line=line)
+        return render_template('details.html', line=line, view_predictions=view_predictions(result) , view_message_density=view_message_density(data))
     else:
         return 'Строка с таким ID не найдена', 404
 
