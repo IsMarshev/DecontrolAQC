@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список строк</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <h1>Список все уроков в выборке</h1>
+    </div>
+    <div class="container">
+        <div class="top-bar">
+            <form action="{{ url_for('display') }}" method="post" class="search-form">
+                <input type="text" name="search" placeholder="Поиск по первому элементу..." value="{{ search_query }}">
+                <button type="submit">Поиск</button>
+            </form>
+            <button onclick="location.href='{{ url_for('index') }}'">Вернуться к загрузке файла</button>
+            <button onclick="location.href='{{ url_for('index') }}'">Выгрузить Excel</button>
+        </div>
+        <div class="left-side">
+            {% for line in lines %}
+            <div class="row" onclick="location.href='{{ url_for('details', id=line) }}'">Урок:{{ line }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
