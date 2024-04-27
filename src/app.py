@@ -81,7 +81,9 @@ async def details(id):
     def view_predictions(classification_result):
         classification_result = pd.DataFrame(result['predictions'], columns = ['label'])['label'].value_counts().to_dict()  
         data = [go.Bar(x=list(classification_result.keys()), y=list(classification_result.values()))]
-        layout = go.Layout(title='Результаты классификации', autosize=True)
+        layout = go.Layout(title='Результаты классификации',
+        paper_bgcolor='rgba(0,0,0,0)',  # <--- Add this line
+        plot_bgcolor='rgba(0,0,0,0)', autosize=True)
         fig = go.Figure(data=data, layout=layout)
         plot_div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div')
         return plot_div
@@ -96,7 +98,9 @@ async def details(id):
         trace = go.Scatter(x=time_intervals, y=message_counts, mode='lines')
         layout = go.Layout(title='Количество сообщений за каждые 5 минут',
                         xaxis=dict(title='Время'),
-                        yaxis=dict(title='Количество сообщений'))
+                        yaxis=dict(title='Количество сообщений'),
+                        paper_bgcolor='rgba(0,0,0,0)',  # <--- Add this line
+                        plot_bgcolor='rgba(0,0,0,0)')
         fig = go.Figure(data=[trace], layout=layout)
         plot_div = fig.to_html(full_html=False, include_plotlyjs=False)
         return plot_div

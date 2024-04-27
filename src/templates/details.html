@@ -36,10 +36,13 @@
                 </div>
               </div>
             <!-- ... Вторая карточка со слайдером ... -->
-          </div>
-            <h1>Результаты классификации</h1>
+            <div class="card big">
+              <div class="card-content">
+                <h3>Результаты классификации</h3>
             <!-- Выводим график -->
-            {{ view_predictions | safe }}
+                  {{ view_predictions | safe }}
+              </div>
+            </div>
         </div>
         <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
         <script>
