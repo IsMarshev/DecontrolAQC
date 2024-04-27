@@ -135,3 +135,105 @@ body {
 .left-side::-webkit-scrollbar-thumb:hover {
   background: #aaa; /* Цвет полоски скроллбара при наведении */
 }
+
+
+
+.button {
+  --text: #fff;
+  --primary: #4F29F0;
+  --check: #05C3B2;
+  --background: #fff;
+  --border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border: 0;
+  outline: none;
+  padding: 0 30px;
+  height: 60px;
+  background: var(--primary);
+  border-radius: var(--border-radius);
+  color: var(--text);
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(#414856, 0.05);
+  transition: transform .1s linear;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  .icons {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 3px 0 0 15px;
+    .arrow {
+      height: 14px;
+      width: 16px;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke: var(--text);
+      fill: none;
+      transform: rotate(var(--r, 0deg)) translateY(var(--y, 0px));
+      transform-origin: var(--transOrigin, bottom right);
+    }
+    .line {
+      margin-top: 2px;
+      height: 8px;
+      width: 18px;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke: var(--text);
+      fill: none;
+      stroke-dashoffset: var(--sd, 0);
+      stroke-dasharray: 16 32;
+      --sd: 0;
+      transform: rotate(var(--r, 0deg)) translate(var(--x, 0px), var(--y, 0px)) ;
+    }
+    .check {
+      position: absolute;
+      height: 13px;
+      width: 17px;
+      stroke-width: 2px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke: var(--check);
+      fill: none;
+      stroke-dashoffset: var(--sd, 32);
+      stroke-dasharray: 18 36;
+      --sd: 32;
+      transform: translateY(-2px);
+    }
+  }
+  > .text {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    font: 400 16px 'Varela Round', sans-serif;
+    letter-spacing: .7px;
+    > span {
+      display: block;
+      transition: transform .3s ease, opacity .3s ease;
+      &::before{
+        content: attr(data-text);
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 100%;
+      }
+    }
+  }
+  &:active {
+      transform: scale(.97);
+  }
+  &.active {
+    > .text {
+      > span {
+        transform: translateY(100%);
+        transition: transform .3s ease 1.9s, opacity .3s ease 1.9s;
+      }
+    }
+  }
+}
