@@ -12,7 +12,27 @@
     </div>
     <div class="container">
         <div class="top-bar">
-            <button onclick="location.href='{{ url_for('index') }}'">Выгрузить Excel</button>
+            <button class="button">
+                <div class="text">
+                  <span data-text="Open file">Down<wbr>load</span>
+                </div>
+                <div class="icons">
+                  <svg class="arrow"><use xlink:href="#arrow" /></svg>
+                  <svg class="line"><path d="M1 3h16"/></svg>
+                  <svg class="check"><path d="M16 1L5 12 1 8"/></svg>
+                </div>
+              </button>
+              
+              
+              <!-- SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16" id="arrow">
+                  <path d="M7 1v14"/>
+                  <path d="M13 9l-6 6-6-6"/>
+                </symbol>
+              </svg>
+
+
             <form action="{{ url_for('display') }}" method="post" class="search-form">
                 <div class="search-wrapper">
                     <input class="search-input" type="text" name="search" placeholder="Search">
@@ -34,5 +54,126 @@
             {% endfor %}
         </div>
     </div>
+<script>
+gsap.registerPlugin(MorphSVGPlugin);
+
+document.querySelectorAll('.button').forEach(element => {
+  let arrow = element.querySelector('.arrow'),
+      line = element.querySelector('.line'),
+      linePath = element.querySelector('.line path'),
+      check = element.querySelector('.check');
+
+  element.addEventListener('click', e => {
+    e.preventDefault()
+    if(!element.classList.contains('active')) {
+      element.classList.add('active');
+      gsap.to(arrow, {
+        keyframes: [ {
+          '--r': '30deg',
+          '--y': '-8px',
+          duration: .4,
+          ease: 'power2.out'
+        }, {
+          '--r': '0deg',
+          '--y': '6px',
+          duration: .2,
+          ease: 'power2.out',
+          onStart() {
+            gsap.to(linePath, {
+              keyframes: [ {
+                morphSVG: 'M1 3s4.415 2.5 8 2.5S17 3 17 3',
+                duration: .2
+              }, {
+                morphSVG: 'M1 3h16',
+                duration: .5,
+                ease: 'elastic.out(1, .5)'
+              }]
+            })
+          }
+        }, {
+          '--r': '0deg',
+          '--y': '0px',
+          duration: .7,
+          ease: 'elastic.out(1, .5)',
+          onComplete() {
+            gsap.to(arrow, {
+              scale: 0,
+              y: 5,
+              '--transOrigin': 'bottom center',
+              duration: .2,
+              ease: 'power2.in'
+            })
+            gsap.to(line, {
+              '--sd': 15.9,
+              '--y': '1px',
+              '--x': '-3px',
+              '--r': '45deg',
+              '--text': 'var(--check)',
+              duration: .5,
+              ease: 'power3.out',
+              onComplete() {
+                gsap.to(check, {
+                  keyframes: [{
+                    '--sd': 54,
+                    duration: .25,
+                    onStart() {
+                      gsap.to(line, {
+                        opacity: 0,
+                        duration: .1
+                      })
+                    }
+                  }, {
+                    '--sd': 51,
+                    duration: 1,
+                    ease: 'elastic.out(1, .5)'
+                  }],
+                  onComplete:allDone
+                })
+              }
+            })
+          }
+        }]
+      })
+      function allDone(){
+        setTimeout(() => {
+          gsap.to(check, {
+            opacity: 0,
+            scale: 0,
+            duration: .3,
+            ease: 'power2.out',
+            clearProps: true
+          })
+          gsap.to(arrow, {
+            delay: .2,
+            opacity: 1,
+            scale: 1,
+            '--transOrigin': 'center',
+            duration: .3,
+            y: 0,
+            clearProps: true
+          })
+          gsap.to(line, {
+            keyframes: [{
+              delay: .2,
+              '--y': '0px',
+              '--x': '0px',
+              '--r': '0deg',
+              '--text': '#fff',
+              duration: 0,
+              opacity: 1
+            },{
+              '--sd': 0,
+              duration: .3,
+              ease: 'power2.out',
+              clearProps: true
+            }]
+          })
+          element.classList.remove('active');
+        }, 2000);
+      }
+    }
+  })
+})
+</script>
 </body>
 </html>
