@@ -46,7 +46,7 @@ def index():
 def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file and uploaded_file.filename.endswith('.csv'):
-        file_path = os.path.join('src/static', uploaded_file.filename)
+        file_path = os.path.join('static', uploaded_file.filename)
         uploaded_file.save(file_path)
         file = pd.read_csv(file_path)
         file = file.dropna(subset='Текст сообщения')
