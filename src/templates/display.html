@@ -8,16 +8,26 @@
 <body>
     <div class="header">
         <h1>Список все уроков в выборке</h1>
+        <button onclick="location.href='{{ url_for('index') }}'">Вернуться к загрузке файла</button>
     </div>
     <div class="container">
         <div class="top-bar">
-            <form action="{{ url_for('display') }}" method="post" class="search-form">
-                <input type="text" name="search" placeholder="Поиск по первому элементу..." value="{{ search_query }}">
-                <button type="submit">Поиск</button>
-            </form>
-            <button onclick="location.href='{{ url_for('index') }}'">Вернуться к загрузке файла</button>
             <button onclick="location.href='{{ url_for('index') }}'">Выгрузить Excel</button>
+            <form action="{{ url_for('display') }}" method="post" class="search-form">
+                <div class="search-wrapper">
+                    <input class="search-input" type="text" name="search" placeholder="Search">
+                    <button type="submit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="feather feather-search" viewBox="0 0 24 24">
+                      <defs></defs>
+                      <circle cx="11" cy="11" r="8"></circle>
+                      <path d="M21 21l-4.35-4.35"></path>
+                    </svg>
+                    </button>
+                  </div>
+            </form>
         </div>
+
+        
         <div class="left-side">
             {% for line in lines %}
             <div class="row" onclick="location.href='{{ url_for('details', id=line) }}'">Урок:{{ line }}</div>
