@@ -43,6 +43,42 @@
                   {{ view_predictions | safe }}
               </div>
             </div>
+            <div class="card big">
+              <div class="card-content">
+                <h3>Положительные</h3>
+            <!-- Выводим график -->
+                  {{ view_positive_predictions | safe }}
+              </div>
+              <div class="card-content">
+                <h3>Отрицательные</h3>
+                {{ view_negative_predictions| safe }}
+            </div>
+            </div>
+            <div class="card big">
+              <div class="card-content">
+                <h3>Фильтрованные сообщения</h3>
+            <!-- Выводим график -->
+                <table>
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Текст</th>
+                          <th>Результат</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in toxic_flood %}
+                    <tr>
+                        <td>{{ item['id'] }}</td>
+                        <td>{{ item['text'] }}</td>
+                        <td>{{ item['result'] }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+              </div>
+            </div>
+
         </div>
         <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
         <script>

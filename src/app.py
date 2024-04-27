@@ -162,7 +162,6 @@ async def details(id):
     result = await predict(data['Текст сообщения'])
     # print(result['predictions'])
     classification_result = pd.DataFrame(result['predictions'], columns = ['label'])['label'].value_counts()
-
     classification_result_sum = sum(classification_result.to_list())
     
     pattern  = {'Неформальные нейтральные сообщения': 0,
@@ -187,11 +186,31 @@ async def details(id):
     for k,v in classification_result.to_dict().items():
         pattern[k] = v/classification_result_sum
 
-    print(pattern)
-
-    print(calculate_metrics(pattern))
+    proxi_metrics = calculate_metrics(pattern)
     def view_predictions(classification_result):
         classification_result=classification_result.to_dict()
+        data = [go.Bar(x=list(classification_result.keys()), y=list(classification_result.values()))]
+        layout = go.Layout(title='Результаты классификации',
+        paper_bgcolor='rgba(0,0,0,0)',  # <--- Add this line
+        plot_bgcolor='rgba(0,0,0,0)', autosize=True)
+        fig = go.Figure(data=data, layout=layout)
+        plot_div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div')
+        return plot_div
+    def view_positive_predictions(classification_result):
+        mp_usefull_label = ['Вопрос о профессии','Вопросе о группе','Вопросы о ходе обучения','Мнение о мероприятии','Технические вопросы','Обсуждение кода','Полезные ссылки','Комплименты']
+        classification_result=classification_result.to_dict()
+        classification_result = {k: v for k, v in classification_result.items() if k in mp_usefull_label}
+        data = [go.Bar(x=list(classification_result.keys()), y=list(classification_result.values()))]
+        layout = go.Layout(title='Результаты классификации',
+        paper_bgcolor='rgba(0,0,0,0)',  # <--- Add this line
+        plot_bgcolor='rgba(0,0,0,0)', autosize=True)
+        fig = go.Figure(data=data, layout=layout)
+        plot_div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div')
+        return plot_div
+    def view_negative_predictions(classification_result):
+        mp_useless_label = ['Недопонимание','Флуд','Токсичные сообщения','Политика','Фишинговые ссылки','Технические проблемы']
+        classification_result=classification_result.to_dict()
+        classification_result = {k: v for k, v in classification_result.items() if k in mp_useless_label}
         data = [go.Bar(x=list(classification_result.keys()), y=list(classification_result.values()))]
         layout = go.Layout(title='Результаты классификации',
         paper_bgcolor='rgba(0,0,0,0)',  # <--- Add this line
@@ -216,12 +235,27 @@ async def details(id):
         fig = go.Figure(data=[trace], layout=layout)
         plot_div = fig.to_html(full_html=False, include_plotlyjs=False)
         return plot_div
+    print(classification_result)
 
-
+    def toxic_flood(result, data):
+        mp_useless_label = ['Флуд','Токсичные сообщения']
+        text = data["Текст сообщения"]
+        result = result['predictions']
+        output = {'id':[], 'text':[], 'result':[]}
+        for i in range(len(text)):
+            if result[i] in mp_useless_label:
+                output['id'].append(i)
+                output['text'].append(text[i])
+                output['result'].append(result[i])
+        
+        return output
+        # classification_result = {k: v for k, v in classification_result.items() if k in mp_useless_label}
+        
+        # return classification_result
 
     line = data['Текст сообщения'].to_list()
     if line:
-        return render_template('details.html', line=line, view_predictions=view_predictions(classification_result) , view_message_density=view_message_density(data))
+        return render_template('details.html', line=line, view_predictions=view_predictions(classification_result) , view_message_density=view_message_density(data), view_negative_predictions= view_negative_predictions(classification_result) , view_positive_predictions= view_positive_predictions(classification_result), proxi_metrics= proxi_metrics, toxic_flood = toxic_flood(result,data))
     else:
         return 'Строка с таким ID не найдена', 404
 
