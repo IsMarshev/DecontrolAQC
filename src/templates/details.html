@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о строке</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='detales.css') }}">
+</head>
+<body>
+        <div class="row-details">
+            {% for item in line %}
+            <span>{{ item }}</span>
+            {% endfor %}
+        </div>
+        <div class="container">
+            <!-- Обычные карточки -->
+            <div class="card">
+              <div class="card-content">
+                <h3>Заголовок Карточки</h3>
+                <p>Описание карточки.</p>
+              </div>
+            </div>
+            <!-- ... Другие карточки ... -->
+          
+            <!-- Карточки со слайдером -->
+            <div class="card">
+                <div class="slider" id="slider1">
+                  <div class="slide" style="background-color: #6D83F2;"></div>
+                  <div class="slide" style="background-color: #F26D6D;"></div>
+                  <div class="slide" style="background-color: #6DF2DF;"></div>
+                  <div class="slider-controls">
+                    <div class="slider-indicator" onclick="currentSlide(1, 'slider1')"></div>
+                    <div class="slider-indicator" onclick="currentSlide(2, 'slider1')"></div>
+                    <div class="slider-indicator" onclick="currentSlide(3, 'slider1')"></div>
+                  </div>
+                </div>
+              </div>
+            <!-- ... Вторая карточка со слайдером ... -->
+          </div>
+        </div>
+        <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
+        <script>
+            let slideIndex = 1;
+            showSlides(slideIndex, 'slider1');
+            // ... Функции для второго слайдера ...
+            
+            function currentSlide(n, sliderId) {
+              showSlides(slideIndex = n, sliderId);
+            }
+            
+            function showSlides(n, sliderId) {
+              let slides = document.querySelector('#'+sliderId).getElementsByClassName("slide");
+              let indicators = document.querySelector('#'+sliderId).getElementsByClassName("slider-indicator");
+              if (n > slides.length) {slideIndex = 1}
+              if (n < 1) {slideIndex = slides.length}
+              for (let slide of slides) {
+                slide.style.display = "none";
+              }
+              for (let indicator of indicators) {
+                indicator.classList.remove("active-indicator");
+              }
+              slides[slideIndex-1].style.display = "block";
+              indicators[slideIndex-1].classList.add("active-indicator");
+            }
+            
+            // Добавление обработчика событий для колесика мыши
+            document.querySelector('.slider').addEventListener('wheel', function(e) {
+              e.preventDefault();
+              slideIndex += (e.deltaY > 0) ? 1 : -1;
+              showSlides(slideIndex, 'slider1');
+            });
+        </script>
+</body>
+
+</html>
