@@ -8,11 +8,22 @@ body {
     background-repeat: no-repeat;
     background-position: center center;
     color: #fff;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
-
 .header {
-  /* Стили для оглавления */
+  padding-left: 25px;
+  padding-top: 0;
+  display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+}
+.header h1 {
+  font-size: 58px;
+  display: block;
+}
+.header button {
+  display: block;
+  margin-top: 58px;
 }
 
 .container {
@@ -24,39 +35,103 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-left: 40px;
+  margin-right: 40px;
   /* Добавьте необходимые стили */
 }
-
 .search-form {
+  width: 28%;
+}
+.search-wrapper {
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding-right: 12px;
+  height: 40px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  width: 100%;
+  max-width: 480px;
+  color: black;
+  overflow: hidden;
+  
 }
 
+.search-input {
+  border: none;
+  flex: 1;
+  outline: none;
+  height: 100%;
+  padding: 0 20px;
+  font-size: 16px;
+  color: black;
+  
+}
+.search-wrapper button {
+  border: none;
+  padding-right: 0;
+  background-color: rgba(255, 255, 255, 0.0);
+  color: black;
+}
+.search-wrapper input {
+  color: black;
+  background-color: rgba(255, 255, 255, 0.0);
+}
 .left-side {
-  width: 50%; /* Или другой подходящий размер */
-  float: left;
+  width: 25%;
+  margin-right: 30px;
+  margin-top: 30px;
+  margin-left: auto;
+  color: black;
+  height: 60vh;
+  /* Скролл */
   overflow-y: scroll;
-  height: 500px; /* Высота по вашему выбору */
+  /* Скругленные углы */
+  border-radius: 10px;
+  /* Полупрозрачный белый фон с эффектом матового стекла */
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  /* Дополнительные стили для выравнивания и отступов */
+  padding: 20px;
+  max-height: 90vh; /* Максимальная высота с учетом скролла */
 }
 
 .row {
-    margin: 10px;
-    padding: 20px;
-    border: 1px solid #303030;
-    background-color: #222;
-    transition: transform 0.3s ease;
+  /* Скругленные углы для дочерних элементов */
+  border-radius: 5px;
+  /* Фон для дочерних элементов */
+  background-color: #ffffff;
+  /* Тень для дочерних элементов */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Отступы и выравнивание текста */
+  margin: 10px 0;
+  padding: 10px;
+  /* Переход при наведении */
+  transition: transform 0.3s ease;
 }
 
-
-button {
-    background-color: #1f1f1f;
-    color: #76ff03;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.row:hover {
+  /* Эффект при наведении */
+  transform: scale(1.02);
 }
 
-button:hover {
-    background-color: #333;
+/* Стили для скроллбара */
+.left-side::-webkit-scrollbar {
+  width: 10px; /* Ширина скроллбара */
+  height: 10px; /* Высота скроллбара */
+  background: transparent; /* Убираем фон скроллбара */
+}
+
+.left-side::-webkit-scrollbar-track {
+  background: transparent; /* Убираем фон трека скроллбара */
+}
+
+.left-side::-webkit-scrollbar-thumb {
+  background: #ccc; /* Цвет полоски скроллбара */
+  border-radius: 10px; /* Скругленные углы полоски скроллбара */
+  border: none; /* Убираем рамку вокруг полоски скроллбара */
+}
+
+.left-side::-webkit-scrollbar-thumb:hover {
+  background: #aaa; /* Цвет полоски скроллбара при наведении */
 }
