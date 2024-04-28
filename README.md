@@ -14,5 +14,5 @@ docker build -t decontolaqc/decontrolaqc:latest ./Dockerfile \
 
 3.Run it
 ```
-docker run -dp 5000:5000 decontolaqc/decontrolaqc:latest
+docker run -dp 5000 decontolaqc/decontrolaqc:latest
 ```
