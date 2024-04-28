@@ -117,3 +117,7 @@
     #### 6. Пример прокси метрик
 
    <img src="pics/metrics.jpg" class="img-responsive" alt="">
+
+### Ссылка на демо
+
+   [яндекс диска]([https://disk.yandex.ru/d/rGe0fGk9n6BmnQ](https://disk.yandex.ru/i/zQzTie6yrYgG6A)).
