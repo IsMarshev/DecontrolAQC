@@ -335,9 +335,9 @@ async def details(id):
         ])
         professionalism = math.sqrt(numerator_sum) / math.sqrt(denominator_sum)
         return {
-            'successfulness': successfulness,
-            'discipline': discipline,
-            'professionalism': professionalism
+            'successfulness': float(str(successfulness * 100)[:5]),
+            'discipline': float(str(discipline * 100)[:5]),
+            'professionalism': float(str(professionalism * 100)[:5])
         }
 
     proxi_metrics = calculate_metrics(pattern)

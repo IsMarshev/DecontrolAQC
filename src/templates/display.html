@@ -12,8 +12,6 @@
         <h1>Список все уроков в выборке</h1>
         <button onclick="location.href='{{ url_for('index') }}'">Вернуться к загрузке файла</button>
     </div>
-    {{show_plot|safe}}
-    {{view_predictions|safe}}
     <div class="container">
         <div class="top-bar">
             <form action="{{ url_for('display') }}" method="post" class="search-form">
@@ -29,12 +27,14 @@
                   </div>
             </form>
         </div>
-
-        
-        <div class="left-side">
+        <div class="container1">
+          <div class="block">{{ show_plot|safe }}</div>
+          <div class="block">{{ view_predictions|safe }}</div>
+          <div class="left-side">
             {% for line in lines %}
             <div class="row" onclick="location.href='{{ url_for('details', id=line) }}'">Урок:{{ line }}</div>
             {% endfor %}
+          </div>
         </div>
     </div>
 <script>

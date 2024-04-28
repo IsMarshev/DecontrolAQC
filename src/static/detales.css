@@ -24,6 +24,8 @@ body {
     padding-left: 25px;
     padding-top: 0;
     margin: 20px;
+    margin-left: 80px;
+    margin-right: 80px;
     border-radius: 30px;
     display: flex;
     align-items: flex-start;
@@ -106,7 +108,8 @@ body {
   .text_m {
     font-size: 24px; /* крупный шрифт */
     font-weight: bold; /* жирный шрифт */
-    text-align: right; /* текст справа */
+    text-align: right;
+    margin-left: 20px; /* текст справа */
   }
   
   .num_m {
@@ -116,8 +119,10 @@ body {
     color: #fff; /* цвет текста */
     text-align: center; /* текст по центру */
     padding: 10px; /* отступы */
-    border-radius: 5px; /* скругление углов */
+    border-radius: 10px; /* скругление углов */
     display: flex;
     justify-content: center;
-    align-items: center; /* центрируем текст внутри квадрата */
+    align-items: center;
+    padding: 30px;
+    margin-right: 20px;/* центрируем текст внутри квадрата */
   }
