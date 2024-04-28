@@ -34,11 +34,6 @@
                   <div class="slide" style="background-color: #6D83F2;"></div>
                   <div class="slide" style="background-color: #F26D6D;"></div>
                   <div class="slide" style="background-color: #6DF2DF;"></div>
-                  <div class="slider-controls">
-                    <div class="slider-indicator" onclick="currentSlide(1, 'slider1')"></div>
-                    <div class="slider-indicator" onclick="currentSlide(2, 'slider1')"></div>
-                    <div class="slider-indicator" onclick="currentSlide(3, 'slider1')"></div>
-                  </div>
                 </div>
               </div>
             <!-- ... Вторая карточка со слайдером ... -->
@@ -87,37 +82,6 @@
             </div>
 
   </div>
-  <script>
-    let slideIndex = 1;
-    showSlides(slideIndex, 'slider1');
-    // ... Функции для второго слайдера ...
-
-    function currentSlide(n, sliderId) {
-      showSlides(slideIndex = n, sliderId);
-    }
-
-    function showSlides(n, sliderId) {
-      let slides = document.querySelector('#' + sliderId).getElementsByClassName("slide");
-      let indicators = document.querySelector('#' + sliderId).getElementsByClassName("slider-indicator");
-      if (n > slides.length) { slideIndex = 1 }
-      if (n < 1) { slideIndex = slides.length }
-      for (let slide of slides) {
-        slide.style.display = "none";
-      }
-      for (let indicator of indicators) {
-        indicator.classList.remove("active-indicator");
-      }
-      slides[slideIndex - 1].style.display = "block";
-      indicators[slideIndex - 1].classList.add("active-indicator");
-    }
-
-    // Добавление обработчика событий для колесика мыши
-    document.querySelector('.slider').addEventListener('wheel', function (e) {
-      e.preventDefault();
-      slideIndex += (e.deltaY > 0) ? 1 : -1;
-      showSlides(slideIndex, 'slider1');
-    });
-  </script>
 </body>
 
 </html>

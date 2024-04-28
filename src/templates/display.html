@@ -12,27 +12,6 @@
     </div>
     <div class="container">
         <div class="top-bar">
-            <button class="button">
-                <div class="text">
-                  <span data-text="Open file">Down<wbr>load</span>
-                </div>
-                <div class="icons">
-                  <svg class="arrow"><use xlink:href="#arrow" /></svg>
-                  <svg class="line"><path d="M1 3h16"/></svg>
-                  <svg class="check"><path d="M16 1L5 12 1 8"/></svg>
-                </div>
-              </button>
-              
-              
-              <!-- SVG -->
-              <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-                <symbol xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 16" id="arrow">
-                  <path d="M7 1v14"/>
-                  <path d="M13 9l-6 6-6-6"/>
-                </symbol>
-              </svg>
-
-
             <form action="{{ url_for('display') }}" method="post" class="search-form">
                 <div class="search-wrapper">
                     <input class="search-input" type="text" name="search" placeholder="Search">

@@ -13,9 +13,9 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-image: url('Screenshot_1.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background-image: url('20248730_6221800.svg');
+    background-size: cover;
+    background-repeat:no-repeat;
     background-position: center center;
     margin: 0;
     padding: 0;
@@ -23,6 +23,8 @@ body {
   .header {
     padding-left: 25px;
     padding-top: 0;
+    margin: 20px;
+    border-radius: 30px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -30,6 +32,7 @@ body {
   }
   .header h1 {
     font-size: 42px;
+    color: #000;
     display: block;
   }
   .header button {
