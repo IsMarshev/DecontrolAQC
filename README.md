@@ -97,7 +97,7 @@
     #### 1. Успешность урока
 
     ![Успешность]('pics/suc.png')
-
+    <img src="pics/suc.png" class="img-responsive" alt=""> </div>
     #### 2. Профессионализм преподавателя
 
     ![Профессионализм]('pics/prof.png')
