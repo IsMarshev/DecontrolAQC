@@ -96,17 +96,16 @@
 
     #### 1. Успешность урока
 
-    ![Успешность]('pics/suc.png')
-    <img src="pics/suc.png" class="img-responsive" alt=""> </div>
+    <img src="pics/suc.png" class="img-responsive" alt="">
     #### 2. Профессионализм преподавателя
 
-    ![Профессионализм]('pics/prof.png')
+   <img src="pics/prof.png" class="img-responsive" alt="">
 
     #### 3. Дисциплинированность студентов
 
-    ![Дисциплина]('pics/disc.png')
-2. Распределение комментариев по классам
+   <img src="pics/disc.png" class="img-responsive" alt="">
+3. Распределение комментариев по классам
     картинка с сайтыча
-3. Анализ активности во времени
+4. Анализ активности во времени
     картинка с сайтыча
-4.
+5.
