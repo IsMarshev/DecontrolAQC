@@ -7,6 +7,10 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
+  <div class="header">
+    <h1>Список все уроков в выборке</h1>
+    <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
+</div>
         <!-- <div class="row-details">
             {% for item in line %}
             <span>{{ item }}</span>
@@ -80,7 +84,6 @@
             </div>
 
         </div>
-        <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
         <script>
             let slideIndex = 1;
             showSlides(slideIndex, 'slider1');
