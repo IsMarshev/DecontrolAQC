@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Информация о строке</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='detales.css') }}">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script>
+        function showScreenLoader() {
+            var infoLoading = document.getElementById("loading-info");
+            infoLoading.style.display = "block";
+        }
+      </script>
+</head>
+
+<body>
+  <div class="header">
+    <h1>Список все уроков в выборке</h1>
+    <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
+  </div>
+  <!-- <div class="row-details">
+            {% for item in line %}
+            <span>{{ item }}</span>
+            {% endfor %}
+        </div> -->
+        <div class="container">
+            <!-- Обычные карточки -->
+            <div class="card">
+              <div class="card-content">
+                <h3>Заголовок Карточки</h3>
+                {{ view_message_density | safe }}
+              </div>
+            </div>
+            <!-- ... Другие карточки ... -->
+          
+            <!-- Карточки со слайдером -->
+            <div class="card1">
+                <div class="slider" id="slider1">
+                  <div class="slide" ><div class="text_m">successfulness</div><div class="num_m">{{proxi_metrics['successfulness']}}%</div></div>
+                  <div class="slide" ><div class="text_m">discipline</div><div class="num_m">{{proxi_metrics['discipline']}}%</div></div>
+                  <div class="slide" ><div class="text_m">professionalism</div><div class="num_m">{{proxi_metrics['professionalism']}}%</div></div>
+                </div>
+              </div>
+            <div class="card big">
+              <div class="card-content">
+                <h3>Результаты классификации</h3>
+            <!-- Выводим график -->
+                  {{ view_predictions | safe }}
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-content">
+                <h3>Положительные</h3>
+            <!-- Выводим график -->
+                  {{ view_positive_predictions | safe }}
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-content">
+                <h3>Отрицательные</h3>
+                {{ view_negative_predictions| safe }}
+            </div>
+            </div>
+            <div class="card big">
+              <div class="card-content">
+                <h3>Фильтрованные сообщения</h3>
+            <!-- Выводим график -->
+            
+                <table>
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Текст</th>
+                          <th>Результат</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    {% for i in range(0, toxic_flood['id']|length) %}
+                    <tr>
+                      <tr>
+                        <td>{{ toxic_flood['id'][i] }}</td>
+                        <td>{{ toxic_flood['text'][i] }}</td>
+                        <td>{{ toxic_flood['result'][i] }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+              </div>
+            </div>
+
+  </div>
+</body>
+
+</html>

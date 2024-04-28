@@ -1,0 +1,26 @@
+id,name,price,features
+1,Apple iPhone 13,999.99,"4GB RAM, 128GB Storage, 12MP Camera"
+2,Samsung Galaxy S22,1099.99,"8GB RAM, 256GB Storage, 50MP Camera"
+3,Google Pixel 6,799.99,"6GB RAM, 128GB Storage, 12.2MP Camera"
+4,OnePlus 9 Pro,899.99,"8GB RAM, 256GB Storage, 48MP Camera"
+5,Sony Xperia 1 III,1299.99,"12GB RAM, 512GB Storage, 12MP Camera"
+6,1,1,1
+7,Apple iPhone 14,420.6633333,"4GB RAM, 128GB Storage, 12MP Camera"
+8,Samsung Galaxy S23,297.9504762,"8GB RAM, 256GB Storage, 50MP Camera"
+9,Google Pixel 7,175.237619,"6GB RAM, 128GB Storage, 12.2MP Camera"
+10,OnePlus 9 Pro,52.5247619,"8GB RAM, 256GB Storage, 48MP Camera"
+11,Sony Xperia 1 III,-70.18809524,"12GB RAM, 512GB Storage, 12MP Camera"
+12,1,-192.9009524,1
+13,Apple iPhone 15,-315.6138095,"4GB RAM, 128GB Storage, 12MP Camera"
+14,Samsung Galaxy S24,-438.3266667,"8GB RAM, 256GB Storage, 50MP Camera"
+15,Google Pixel 8,-561.0395238,"6GB RAM, 128GB Storage, 12.2MP Camera"
+16,OnePlus 9 Pro,-683.752381,"8GB RAM, 256GB Storage, 48MP Camera"
+17,Sony Xperia 1 III,-806.4652381,"12GB RAM, 512GB Storage, 12MP Camera"
+18,1,-929.1780952,1
+19,Apple iPhone 16,-1051.890952,"4GB RAM, 128GB Storage, 12MP Camera"
+20,Samsung Galaxy S25,-1174.60381,"8GB RAM, 256GB Storage, 50MP Camera"
+21,Google Pixel 9,-1297.316667,"6GB RAM, 128GB Storage, 12.2MP Camera"
+22,OnePlus 9 Pro,-1420.029524,"8GB RAM, 256GB Storage, 48MP Camera"
+23,Sony Xperia 1 III,-1542.742381,"12GB RAM, 512GB Storage, 12MP Camera"
+24,1,-1665.455238,1
+25,Apple iPhone 17,-1788.168095,"4GB RAM, 128GB Storage, 12MP Camera"
