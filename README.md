@@ -108,12 +108,12 @@
    
    #### 4. Распределение комментариев по классам
    
-    <img src="pics/top_of_class.png" class="img-responsive" alt="">
+    <img src="pics/top_of_class.jpg" class="img-responsive" alt="">
     
     #### 5. Анализ активности во времени
    
-    <img src="pics/timeseries.png" class="img-responsive" alt="">
+    <img src="pics/timeseries.jpg" class="img-responsive" alt="">
 
     #### 6. Пример прокси метрик
 
-   <img src="pics/metrics.png" class="img-responsive" alt="">
+   <img src="pics/metrics.jpg" class="img-responsive" alt="">
