@@ -13,7 +13,8 @@
 3. docker build -t decontolaqc/decontrolaqc:latest . сборка докер файла
 3.1. docker run -d decontolaqc/decontrolaqc:latest запуск
 ### ЧЕРЕЗ Py File
-3. В терминале выполните команду:
+3. В коде заменить base_path = '.src/' на base_path=''
+3.1 В терминале выполните команду:
    ```bash
     cd src
    python app.py
