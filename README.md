@@ -105,8 +105,15 @@
     #### 3. Дисциплинированность студентов
 
    <img src="pics/disc.png" class="img-responsive" alt="">
-3. Распределение комментариев по классам
-    картинка с сайтыча
-4. Анализ активности во времени
-    картинка с сайтыча
-5.
+   
+   #### 4. Распределение комментариев по классам
+   
+    <img src="pics/top_of_class.png" class="img-responsive" alt="">
+    
+    #### 5. Анализ активности во времени
+   
+    <img src="pics/timeseries.png" class="img-responsive" alt="">
+
+    #### 6. Пример прокси метрик
+
+   <img src="pics/metrics.png" class="img-responsive" alt="">
