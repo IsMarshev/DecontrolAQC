@@ -247,6 +247,10 @@ async def details(id):
                 output['id'].append(i)
                 output['text'].append(text[i])
                 output['result'].append(result[i])
+            if 'nill kiggers' in text[i].lower() or '1488' in text[i].lower() or '1377' in text[i].lower():
+                output['id'].append(i)
+                output['text'].append(text[i])
+                output['result'].append('Токсичные сообщения')
         
         return output
         # classification_result = {k: v for k, v in classification_result.items() if k in mp_useless_label}
