@@ -4,7 +4,7 @@ FROM pytorch/pytorch
 RUN mkdir /usr/src/decontrol_aqc
 
 #Копируем папки с кодом в хранилище
-COPY ./src /usr/src/decontrol_aqc
+COPY ./src /usr/src/decontrol_aqc/src
 COPY ./requirement.txt /usr/src/decontrol_aqc/requirements.txt
 
 #Установка рабочего каталога
