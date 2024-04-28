@@ -5,12 +5,13 @@ RUN mkdir /usr/src/decontrol_aqc
 
 #Копируем папки с кодом в хранилище
 COPY ./src /usr/src/decontrol_aqc
+COPY ./requirement.txt /usr/src/decontrol_aqc/requirements.txt
 
 #Установка рабочего каталога
 WORKDIR /usr/src/decontrol_aqc
 
 #Устновка зависимостей 
-RUN python -m pip install -r ./requirements.txt
+RUN python -m pip install -r /usr/src/decontrol_aqc/requirements.txt
 
 #Привяжем порт
 EXPOSE 5000
