@@ -118,6 +118,4 @@
 
    <img src="pics/metrics.jpg" class="img-responsive" alt="">
 
-### Ссылка на демо
-
-   [ЯНДЕКС ДИСК](https://disk.yandex.ru/i/zQzTie6yrYgG6A).
+### Ссылка на демо: [ЯНДЕКС ДИСК](https://disk.yandex.ru/i/zQzTie6yrYgG6A)
