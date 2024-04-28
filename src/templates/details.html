@@ -1,120 +1,122 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Информация о строке</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='detales.css') }}">
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Информация о строке</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='detales.css') }}">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
+
 <body>
   <div class="header">
     <h1>Список все уроков в выборке</h1>
     <button onclick="location.href='{{ url_for('display') }}'">Назад к списку</button>
-</div>
-        <!-- <div class="row-details">
+  </div>
+  <!-- <div class="row-details">
             {% for item in line %}
             <span>{{ item }}</span>
             {% endfor %}
         </div> -->
-        <div class="container">
-            <!-- Обычные карточки -->
-            <div class="card">
-              <div class="card-content">
-                <h3>Заголовок Карточки</h3>
-                {{ view_message_density | safe }}
-              </div>
-            </div>
-            <!-- ... Другие карточки ... -->
-          
-            <!-- Карточки со слайдером -->
-            <div class="card">
-                <div class="slider" id="slider1">
-                  <div class="slide" style="background-color: #6D83F2;"></div>
-                  <div class="slide" style="background-color: #F26D6D;"></div>
-                  <div class="slide" style="background-color: #6DF2DF;"></div>
-                  <div class="slider-controls">
-                    <div class="slider-indicator" onclick="currentSlide(1, 'slider1')"></div>
-                    <div class="slider-indicator" onclick="currentSlide(2, 'slider1')"></div>
-                    <div class="slider-indicator" onclick="currentSlide(3, 'slider1')"></div>
-                  </div>
-                </div>
-              </div>
-            <!-- ... Вторая карточка со слайдером ... -->
-            <div class="card big">
-              <div class="card-content">
-                <h3>Результаты классификации</h3>
-            <!-- Выводим график -->
-                  {{ view_predictions | safe }}
-              </div>
-            </div>
-            <div class="card big">
-              <div class="card-content">
-                <h3>Положительные</h3>
-            <!-- Выводим график -->
-                  {{ view_positive_predictions | safe }}
-              </div>
-              <div class="card-content">
-                <h3>Отрицательные</h3>
-                {{ view_negative_predictions| safe }}
-            </div>
-            </div>
-            <div class="card big">
-              <div class="card-content">
-                <h3>Фильтрованные сообщения</h3>
-            <!-- Выводим график -->
-                <table>
-                  <thead>
-                      <tr>
-                          <th>ID</th>
-                          <th>Текст</th>
-                          <th>Результат</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                    {% for item in toxic_flood %}
-                    <tr>
-                        <td>{{ item['id'] }}</td>
-                        <td>{{ item['text'] }}</td>
-                        <td>{{ item['result'] }}</td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-              </table>
-              </div>
-            </div>
+  <div class="container">
+    <!-- Обычные карточки -->
+    <div class="card">
+      <div class="card-content">
+        <h3>Активность участников в чате</h3>
+        {{ view_message_density | safe }}
+      </div>
+    </div>
+    <!-- ... Другие карточки ... -->
 
+    <!-- Карточки со слайдером -->
+    <div class="card">
+      <div class="slider" id="slider1">
+        <div class="slide" style="background-color: #6D83F2;"></div>
+        <div class="slide" style="background-color: #F26D6D;"></div>
+        <div class="slide" style="background-color: #6DF2DF;"></div>
+        <div class="slider-controls">
+          <div class="slider-indicator" onclick="currentSlide(1, 'slider1')"></div>
+          <div class="slider-indicator" onclick="currentSlide(2, 'slider1')"></div>
+          <div class="slider-indicator" onclick="currentSlide(3, 'slider1')"></div>
         </div>
-        <script>
-            let slideIndex = 1;
-            showSlides(slideIndex, 'slider1');
-            // ... Функции для второго слайдера ...
-            
-            function currentSlide(n, sliderId) {
-              showSlides(slideIndex = n, sliderId);
-            }
-            
-            function showSlides(n, sliderId) {
-              let slides = document.querySelector('#'+sliderId).getElementsByClassName("slide");
-              let indicators = document.querySelector('#'+sliderId).getElementsByClassName("slider-indicator");
-              if (n > slides.length) {slideIndex = 1}
-              if (n < 1) {slideIndex = slides.length}
-              for (let slide of slides) {
-                slide.style.display = "none";
-              }
-              for (let indicator of indicators) {
-                indicator.classList.remove("active-indicator");
-              }
-              slides[slideIndex-1].style.display = "block";
-              indicators[slideIndex-1].classList.add("active-indicator");
-            }
-            
-            // Добавление обработчика событий для колесика мыши
-            document.querySelector('.slider').addEventListener('wheel', function(e) {
-              e.preventDefault();
-              slideIndex += (e.deltaY > 0) ? 1 : -1;
-              showSlides(slideIndex, 'slider1');
-            });
-        </script>
+      </div>
+    </div>
+    <!-- ... Вторая карточка со слайдером ... -->
+    <div class="card big">
+      <div class="card-content">
+        <h3>Результаты классификации</h3>
+        <!-- Выводим график -->
+        {{ view_predictions | safe }}
+      </div>
+    </div>
+    <div class="card big">
+      <div class="card-content">
+        <h3>Положительные</h3>
+        <!-- Выводим график -->
+        {{ view_positive_predictions | safe }}
+      </div>
+      <div class="card-content">
+        <h3>Отрицательные</h3>
+        {{ view_negative_predictions| safe }}
+      </div>
+    </div>
+    <div class="card big">
+      <div class="card-content">
+        <h3>Фильтрованные сообщения</h3>
+        <!-- Выводим график -->
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Текст</th>
+              <th>Результат</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for i in range(0, toxic_flood['id']|length) %}
+            <tr>
+              <td>{{ toxic_flood['id'][i] }}</td>
+              <td>{{ toxic_flood['text'][i] }}</td>
+              <td>{{ toxic_flood['result'][i] }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+  <script>
+    let slideIndex = 1;
+    showSlides(slideIndex, 'slider1');
+    // ... Функции для второго слайдера ...
+
+    function currentSlide(n, sliderId) {
+      showSlides(slideIndex = n, sliderId);
+    }
+
+    function showSlides(n, sliderId) {
+      let slides = document.querySelector('#' + sliderId).getElementsByClassName("slide");
+      let indicators = document.querySelector('#' + sliderId).getElementsByClassName("slider-indicator");
+      if (n > slides.length) { slideIndex = 1 }
+      if (n < 1) { slideIndex = slides.length }
+      for (let slide of slides) {
+        slide.style.display = "none";
+      }
+      for (let indicator of indicators) {
+        indicator.classList.remove("active-indicator");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      indicators[slideIndex - 1].classList.add("active-indicator");
+    }
+
+    // Добавление обработчика событий для колесика мыши
+    document.querySelector('.slider').addEventListener('wheel', function (e) {
+      e.preventDefault();
+      slideIndex += (e.deltaY > 0) ? 1 : -1;
+      showSlides(slideIndex, 'slider1');
+    });
+  </script>
 </body>
 
 </html>
