@@ -16,9 +16,9 @@ app.secret_key = 'your_secret_key'
 base_model_name = "cointegrated/rubert-tiny2" 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-binary_classification_model = pipeline('text-classification', model=BertForSequenceClassification.from_pretrained("models/binary_classification_model"), tokenizer=AutoTokenizer.from_pretrained(base_model_name), device=device)
-usefull_classification_model = pipeline('text-classification', model=BertForSequenceClassification.from_pretrained("models/usefull_classification_model"), tokenizer=AutoTokenizer.from_pretrained(base_model_name), device=device)
-useless_classification_model = pipeline('text-classification', model=BertForSequenceClassification.from_pretrained("models/useless_classification_model"), tokenizer=AutoTokenizer.from_pretrained(base_model_name), device=device)
+binary_classification_model = pipeline('text-classification', model=BertForSequenceClassification.from_pretrained("./src/models/binary_classification_model"), tokenizer=AutoTokenizer.from_pretrained(base_model_name), device=device)
+usefull_classification_model = pipeline('text-classification', model=BertForSequenceClassification.from_pretrained("./src/models/usefull_classification_model"), tokenizer=AutoTokenizer.from_pretrained(base_model_name), device=device)
+useless_classification_model = pipeline('text-classification', model=BertForSequenceClassification.from_pretrained("./src/models/useless_classification_model"), tokenizer=AutoTokenizer.from_pretrained(base_model_name), device=device)
 
 
 async def predict(text_data):
@@ -133,7 +133,7 @@ def index():
 async def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file and (uploaded_file.filename.endswith('.csv') or uploaded_file.filename.endswith('.xlsx')):
-        file_path = os.path.join('static', uploaded_file.filename)
+        file_path = os.path.join('./src/static', uploaded_file.filename)
         print(file_path[-4:])
         uploaded_file.save(file_path)
         if file_path[-4:]=='.csv':
