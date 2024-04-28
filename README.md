@@ -120,4 +120,4 @@
 
 ### Ссылка на демо
 
-   [ЯНДЕКС ДИСК](https://disk.yandex.ru/d/rGe0fGk9n6BmnQ](https://disk.yandex.ru/i/zQzTie6yrYgG6A).
+   [ЯНДЕКС ДИСК](https://disk.yandex.ru/i/zQzTie6yrYgG6A).
