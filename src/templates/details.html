@@ -6,6 +6,12 @@
   <title>Информация о строке</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='detales.css') }}">
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script>
+        function showScreenLoader() {
+            var infoLoading = document.getElementById("loading-info");
+            infoLoading.style.display = "block";
+        }
+      </script>
 </head>
 
 <body>

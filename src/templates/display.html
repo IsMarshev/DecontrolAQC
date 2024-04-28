@@ -5,7 +5,12 @@
     <title>Список строк</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
+    <script>
+        function showScreenLoader() {
+            var infoLoading = document.getElementById("loading-info");
+            infoLoading.style.display = "block";
+        }
+      </script>
 </head>
 <body>
     <div class="header">
@@ -32,8 +37,12 @@
           <div class="block">{{ view_predictions|safe }}</div>
           <div class="left-side">
             {% for line in lines %}
-            <div class="row" onclick="location.href='{{ url_for('details', id=line) }}'">Урок:{{ line }}</div>
+            <div class="row" onclick="showScreenLoader(); location.href='{{ url_for('details', id=line) }}'">Урок:{{ line }}</div>
             {% endfor %}
+          </div>
+          <div class="loading" id="loading-info" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading...</p>
           </div>
         </div>
     </div>
