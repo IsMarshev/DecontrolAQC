@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <title>Список строк</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 </head>
 <body>
     <div class="header">
         <h1>Список все уроков в выборке</h1>
         <button onclick="location.href='{{ url_for('index') }}'">Вернуться к загрузке файла</button>
     </div>
+    {{show_plot|safe}}
+    {{view_predictions|safe}}
     <div class="container">
         <div class="top-bar">
             <form action="{{ url_for('display') }}" method="post" class="search-form">

@@ -7,6 +7,7 @@ import os
 from transformers import pipeline, BertForSequenceClassification, AutoTokenizer
 import plotly.graph_objs as go
 import plotly
+import plotly.offline as py
 import asyncio
 from tqdm import tqdm
 
@@ -84,10 +85,10 @@ def calculate_metrics(class_values):
         'misunderstanding': 1,
         'toxic': 1
     }
-    successfulness = float(str(math.sqrt(sum([
+    successfulness = math.sqrt(sum([
         (class_values[param] * weight)**2
         for param, weight in successfulness_weights.items()
-    ])) / math.sqrt(sum(successfulness_weights.values()))*100)[:4])
+    ])) / math.sqrt(sum(successfulness_weights.values()))
 
     # Calculate Student Discipline
     discipline_weights = {
@@ -99,10 +100,10 @@ def calculate_metrics(class_values):
         'flood': 0.18,
         'toxic': 0.201,
     }
-    discipline = float(str(math.sqrt(sum([
+    discipline = math.sqrt(sum([
         (class_values[param] * weight)**2
         for param, weight in discipline_weights.items()
-    ])) / math.sqrt(sum(discipline_weights.values()))*100)[:4])
+    ])) / math.sqrt(sum(discipline_weights.values()))
 
     # Calculate Teacher Professionalism
     professionalism_weights = {
@@ -113,10 +114,10 @@ def calculate_metrics(class_values):
         'tech_questions': 2,
         'misunderstanding': 2
     }
-    professionalism = float(str(math.sqrt(sum([
+    professionalism = math.sqrt(sum([
         (class_values[param] * weight)**2
         for param, weight in professionalism_weights.items()
-    ])) / math.sqrt(sum(professionalism_weights.values()))*100)[:4])
+    ])) / math.sqrt(sum(professionalism_weights.values()))
 
     return {
         'successfulness': successfulness,
@@ -128,15 +129,23 @@ def calculate_metrics(class_values):
 def index():
     return render_template('index.html')
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
+@app.route('/upload', methods=['GET', 'POST'])
+async def upload_file():
     uploaded_file = request.files['file']
-    if uploaded_file and uploaded_file.filename.endswith('.csv'):
+    if uploaded_file and (uploaded_file.filename.endswith('.csv') or uploaded_file.filename.endswith('.xlsx')):
         file_path = os.path.join('static', uploaded_file.filename)
+        print(file_path[-4:])
         uploaded_file.save(file_path)
-        file = pd.read_csv(file_path)
+        if file_path[-4:]=='.csv':
+            file = pd.read_csv(file_path)
+        else:
+            file = pd.read_excel(file_path)
         file = file.dropna(subset='Текст сообщения')
         file.reset_index(drop=True,inplace=True)
+        result = await predict(file['Текст сообщения'])
+        file['label'] = result['predictions']
+        if file_path[-4:]!='.csv':
+            file_path = file_path.replace('.xlsx','.csv')
         file.to_csv(file_path, index=False)
         session['csv_data_file_path'] = file_path
         return redirect(url_for('display'))
@@ -148,10 +157,42 @@ def display():
     file_data = pd.read_csv(file_path)
     lines = file_data['ID урока'].unique()
     lines = lines.astype(int)
+    def show_plot(file_data):
+        data = {'Hour': []}
+        for i in range(len(file_data['Дата сообщения'])):
+            try:
+                data['Hour'].append(file_data['Дата сообщения'][i].split()[1][:2])
+            except:
+                pass
+        data = pd.DataFrame(data)
+        sorted_counts = data['Hour'].value_counts().sort_index()
+        print(sorted_counts.values)
+        fig = go.Figure(data=[go.Bar(x=sorted_counts.index, y=sorted_counts)])
+        fig.update_layout(
+            title='Гистограмма по часам',
+            xaxis_title='Часы', 
+            yaxis_title='Количество записей'
+        )
+
+        # Создаем HTML-код графика  
+        plot_div = py.plot(fig, include_plotlyjs=False, output_type='div')
+        return plot_div
+    classification_result = file_data['label'].value_counts()
+    def view_predictions(classification_result):
+        classification_result=classification_result.to_dict()
+        data = [go.Bar(x=list(classification_result.keys()), y=list(classification_result.values()))]
+        layout = go.Layout(title='Результаты классификации',
+        paper_bgcolor='rgba(0,0,0,0)',  # <--- Add this line
+        plot_bgcolor='rgba(0,0,0,0)', autosize=True)
+        fig = go.Figure(data=data, layout=layout)
+        plot_div = plotly.offline.plot(fig, include_plotlyjs=False, output_type='div')
+        return plot_div
+
+
     search_query = request.form.get('search', '')
     if search_query:
         lines = [str(line) for line in list(lines) if str(search_query) in str(line)]
-    return render_template('display.html', lines=lines, search_query=search_query)
+    return render_template('display.html', lines=lines, search_query=search_query, show_plot = show_plot(file_data) ,view_predictions = view_predictions(classification_result))
 
 @app.route('/details/<id>')
 async def details(id):
@@ -185,6 +226,119 @@ async def details(id):
     
     for k,v in classification_result.to_dict().items():
         pattern[k] = v/classification_result_sum
+    def calculate_metrics(class_values):
+        ru_eng = {
+        'Неформальные нейтральные сообщения': 'non_formal_neutral',
+        'Технические вопросы': 'tech_questions',
+        'Обсуждение кода': 'code_discussion',
+        'Флуд': 'flood',
+        'Вопросы о ходе обучения': 'course_progress',
+        'Недопонимание': 'misunderstanding',
+        'Технические проблемы': 'tech_problems',
+        'Комплименты': 'compliments',
+        'Понимание': 'understanding',
+        'Приветствие': 'greetings',
+        'Токсичные сообщения': 'toxic',
+        'Позитивные неформальные сообщения': 'positive_informal',
+        'Полезные ссылки': 'useful_links',
+        'Прощания': 'goodbyes',
+        'Мнение о мероприятии': 'event_opinion',
+        'Вопрос о профессии': 'professions',
+        'Вопросе о группе': 'groups'
+        }
+        new = {}
+        for k, v in class_values.items(): #переводим ключи на русский так как код писала лЛама, коммент удалить
+            if k != 'Итог':
+                new[ru_eng[k]] = v
+
+        class_values = new
+        class_values['misunderstanding'] = 0 - class_values['misunderstanding']
+        class_values['flood'] = 0 - class_values['flood']
+        class_values['toxic'] = 0 - class_values['toxic']
+        class_values['tech_problems'] = 0 - class_values['tech_problems']
+        print(class_values)
+        successfulness_weights = {
+            'understanding': 50,
+            'compliments': 50,
+            'professions': 15,
+            'groups': 11,
+            'course_progress': 15, 
+            'useful_links': 11,
+            'event_opinion': 14,
+            'tech_problems': 11,
+            'misunderstanding': 10,
+            'toxic': 10,
+            'code_discussion': 50, 
+            'tech_questions': 35,
+            'positive_informal': 15
+
+        }
+        numerator_sum = sum([
+            (class_values[param]/abs(class_values[param]))*((class_values[param] * weight)**2)
+            for param, weight in successfulness_weights.items()
+            if class_values[param] != 0 
+        ])
+        if numerator_sum < 0:
+            numerator_sum = 0
+        denominator_sum = sum([
+            weight
+            for param, weight in successfulness_weights.items()
+            if class_values[param] != 0
+        ])
+
+        successfulness = math.sqrt(numerator_sum) / math.sqrt(denominator_sum)
+        discipline_weights = {
+            'non_formal_neutral': 15,
+            'positive_informal': 20,
+            'compliments': 18,
+            'professions': 12,
+            'groups': 10,
+            'course_progress': 10,
+            'flood': 25,
+            'toxic': 30,
+        }
+        numerator_sum = sum([
+            (class_values[param]/abs(class_values[param]))*((class_values[param] * weight)**2)
+            for param, weight in discipline_weights.items()
+            if class_values[param] != 0  
+        ])
+        print(numerator_sum) 
+        if numerator_sum < 0:
+            numerator_sum = 0
+        denominator_sum = sum([
+            weight
+            for param, weight in discipline_weights.items()
+            if class_values[param] != 0  
+        ])
+        discipline = math.sqrt(numerator_sum) / math.sqrt(denominator_sum)
+
+        professionalism_weights = {
+            'understanding': 50,  
+            'compliments': 50, 
+            'useful_links': 15,
+            'code_discussion': 20,
+            'tech_questions': 40,
+            'misunderstanding': 10
+        }
+        numerator_sum = sum([
+            (class_values[param]/abs(class_values[param]))*((class_values[param] * weight)**2)
+            for param, weight in professionalism_weights.items()
+            if class_values[param] != 0 
+        ])
+        if numerator_sum < 0:
+            numerator_sum = 0
+
+        denominator_sum = sum([
+            weight
+            for param, weight in professionalism_weights.items()
+            if class_values[param] != 0  
+        ])
+        professionalism = math.sqrt(numerator_sum) / math.sqrt(denominator_sum)
+        return {
+            'successfulness': successfulness,
+            'discipline': discipline,
+            'professionalism': professionalism
+        }
 
     proxi_metrics = calculate_metrics(pattern)
     def view_predictions(classification_result):
