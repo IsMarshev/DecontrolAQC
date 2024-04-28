@@ -97,6 +97,7 @@
     #### 1. Успешность урока
 
     <img src="pics/suc.png" class="img-responsive" alt="">
+    
     #### 2. Профессионализм преподавателя
 
    <img src="pics/prof.png" class="img-responsive" alt="">
