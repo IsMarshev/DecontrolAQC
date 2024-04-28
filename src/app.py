@@ -84,10 +84,10 @@ def calculate_metrics(class_values):
         'misunderstanding': 1,
         'toxic': 1
     }
-    successfulness = math.sqrt(sum([
+    successfulness = float(str(math.sqrt(sum([
         (class_values[param] * weight)**2
         for param, weight in successfulness_weights.items()
-    ])) / math.sqrt(sum(successfulness_weights.values()))
+    ])) / math.sqrt(sum(successfulness_weights.values()))*100)[:4])
 
     # Calculate Student Discipline
     discipline_weights = {
@@ -99,10 +99,10 @@ def calculate_metrics(class_values):
         'flood': 0.18,
         'toxic': 0.201,
     }
-    discipline = math.sqrt(sum([
+    discipline = float(str(math.sqrt(sum([
         (class_values[param] * weight)**2
         for param, weight in discipline_weights.items()
-    ])) / math.sqrt(sum(discipline_weights.values()))
+    ])) / math.sqrt(sum(discipline_weights.values()))*100)[:4])
 
     # Calculate Teacher Professionalism
     professionalism_weights = {
@@ -113,10 +113,10 @@ def calculate_metrics(class_values):
         'tech_questions': 2,
         'misunderstanding': 2
     }
-    professionalism = math.sqrt(sum([
+    professionalism = float(str(math.sqrt(sum([
         (class_values[param] * weight)**2
         for param, weight in professionalism_weights.items()
-    ])) / math.sqrt(sum(professionalism_weights.values()))
+    ])) / math.sqrt(sum(professionalism_weights.values()))*100)[:4])
 
     return {
         'successfulness': successfulness,
